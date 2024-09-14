@@ -1,16 +1,18 @@
 import Order from "../infrastructure/schemas/Order.js";
 import orderDto from "./dto/orders.js"
-
+import ValidationError from '../domain/errors/validation-error.js'
+import NotFoundError from '../domain/errors/not-found-error.js'
 const createOrder = async(req,res)=>{
     const order= orderDto.safeParse(req.body);
 
     if(!order.success){
-        return res.status(400).json({ message: order.error.errors }).send();
+     throw new ValidationError(order.error.message)
     }
 
     await Order.create({
         userId:order.data.userId,
-        orderProducts:order.data.orderProducts
+        orderProducts:order.data.orderProducts,
+        address:order.data.address
     });
 
     return res.status(201).send();
@@ -25,7 +27,7 @@ const getOrderById=async(req,res)=>{
   });
 
   if(!order){
-    return res.status(404).json({message:"Order not found"}).send();
+   throw new NotFoundError("Order not found")
   }
 
   return res.status(200).json(order).send();

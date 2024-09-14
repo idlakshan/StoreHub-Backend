@@ -21,6 +21,32 @@ const OrderSchema = new mongoose.Schema({
             }
         }
     ]
+   },
+   address:{
+    fname:{
+        type:String,
+        required:true
+    },
+    lname:{
+        type:String,
+        required:true
+    },
+    line_1:{
+        type:String,
+        required:true
+    },
+    line_2:{
+        type:String,
+        required:true
+    },
+    city:{
+        type:String,
+        required:true
+    },
+    phone:{
+        type:String,
+        required:true
+    },
    }
 });
 
