@@ -9,14 +9,35 @@ const createOrder = async(req,res)=>{
      throw new ValidationError(order.error.message)
     }
 
-    await Order.create({
+   const createdOrder= await Order.create({
         userId:order.data.userId,
         orderProducts:order.data.orderProducts,
         address:order.data.address
     });
 
-    return res.status(201).send();
+    return res.status(201).json(createdOrder);
 
+}
+
+const handlePayment =async(req,res)=>{
+  const {orderId,status}=req.body;
+  const order=await Order.findById(orderId);
+
+  if(!order){
+    throw new NotFoundError("Order not found")
+   }
+
+   if(status==="SUCCESS"){
+    order.paymentStatus="PAID",
+    await order.save();
+    return res.status(200).send();
+  }
+
+   if(status==="FAILD"){
+     return res.status(200).send();
+   }
+
+   
 }
 
 const getOrderById=async(req,res)=>{
@@ -43,4 +64,4 @@ const getOrderForUser=async(req,res)=>{
 
 }
 
-export {createOrder,getOrderById,getOrderForUser}
+export {createOrder,getOrderById,getOrderForUser,handlePayment}
