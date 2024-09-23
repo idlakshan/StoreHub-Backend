@@ -8,6 +8,6 @@ const ordersRouter=express.Router();
 ordersRouter.route("/").post(createOrder);
 ordersRouter.route("/:id").get(getOrderById);
 ordersRouter.route("/users/:userId").get(getOrderForUser);
-ordersRouter.route("/complete").post(handlePayment);
+ordersRouter.route("/webhook/payment").post(handlePayment);
 
 export default ordersRouter;
