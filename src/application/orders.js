@@ -51,7 +51,7 @@ const getOrderById=async(req,res)=>{
    throw new NotFoundError("Order not found")
   }
 
-  return res.status(200).json(order).send();
+  return res.status(200).json(order);
 }
 
 const getOrderForUser=async(req,res)=>{
@@ -59,7 +59,7 @@ const getOrderForUser=async(req,res)=>{
     console.log(userId);
     
     const orders=await Order.find({userId:userId});
-    return res.status(200).json(orders).send()
+    return res.status(200).json(orders)
 
 
 }
